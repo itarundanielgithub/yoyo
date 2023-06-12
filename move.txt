@@ -1,0 +1,17 @@
+Add-Type -TypeDefinition @"
+using System;
+using System.Runtime.InteropServices;
+
+public class Win32 {
+    [DllImport("user32.dll")]
+    public static extern bool SetCursorPos(int x, int y);
+}
+"@
+
+Add-Type -AssemblyName System.Windows.Forms
+
+while ($true) {
+    $Pos = [System.Windows.Forms.Cursor]::Position
+    [Win32]::SetCursorPos($Pos.X+100, $Pos.Y+100)
+    Start-Sleep -Seconds 5
+}
